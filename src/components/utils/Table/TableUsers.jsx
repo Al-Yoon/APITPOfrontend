@@ -1,10 +1,9 @@
 import DataTable from 'react-data-table-component';
 import * as React from 'react';
+import { notify } from '../../../api/projects_api';
 
-import {notify} from '../../../api/projects_api'
+function TableUsers({ updatePercentage, totalAmount, handlePayment, paidAmount, data }) {
 
-function TableUsers({updatePercentage, totalAmount, handlePayment,data}) {
-    
     const handlePercentageChange = (e, rowIndex) => {
         const newPercentage = parseFloat(e.target.value);
         if (!isNaN(newPercentage)) {
@@ -12,12 +11,22 @@ function TableUsers({updatePercentage, totalAmount, handlePayment,data}) {
         }
     };
 
-    const handleSendNotification = (email) => {
+    const handleSendNotification = (index, email, amount, isPaid) => {
+        if (isPaid) {
+            alert(`El miembro ${email} ya ha realizado el pago.`);
+            return;
+        }
+
+        const remainingAmount = totalAmount - paidAmount;
+        if (parseFloat(amount) > remainingAmount) {
+            alert(`El monto a pagar excede el monto restante. Falta pagar: ${remainingAmount.toFixed(2)} $ (${((remainingAmount / totalAmount) * 100).toFixed(2)}%)`);
+            return;
+        }
+
         notify(email); //mail
         alert(`Notificación Enviada a ${email}`);
+        handlePayment(index, amount);
     };
-
-    //const token = sessionStorage.getItem('access-token');
 
     const columns = [
         {
@@ -43,6 +52,7 @@ function TableUsers({updatePercentage, totalAmount, handlePayment,data}) {
                     value={row.percentage}
                     onChange={(e) => handlePercentageChange(e, index)}
                     style={{ width: '60px' }}
+                    disabled={row.paid}
                 />
             )
         },
@@ -55,10 +65,11 @@ function TableUsers({updatePercentage, totalAmount, handlePayment,data}) {
             name: "Acciones",
             cell: (row, index) => (
                 <button
-                    className="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-[#38bdf8]"
-                    onClick={() => handleSendNotification(row.email)}
+                    className={`bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-[#38bdf8] ${row.paid ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={() => handleSendNotification(index, row.email, (totalAmount * row.percentage / 100).toFixed(2), row.paid)}
+                    disabled={row.paid}
                 >
-                    Enviar Notificación
+                    {row.paid ? 'Pagado' : 'Enviar Notificación'}
                 </button>
             )
         }

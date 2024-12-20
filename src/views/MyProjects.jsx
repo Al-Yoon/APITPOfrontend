@@ -37,6 +37,11 @@ const MyProjects = () => {
         localStorage.setItem('userBalance', userBalance);
     }, [userBalance]);
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-CA'); // 'en-CA' formatea la fecha como YYYY-MM-DD
+    };
+
     const getTotalAmount = (slug) => {
         return 0;
     };
@@ -95,11 +100,11 @@ const MyProjects = () => {
                             <h2 className='text-2xl font-bold text-center pt-8 flex justify-center'>Proyecto: {project.nombre}</h2>
                             <div className='text-center font-medium'>
                                 <p className='py-2 my-5'>{project.descripcion}</p>
-                                <p className='py-2 my-5'>{project.fecha}</p>
+                                <p className='py-2 my-5'>{formatDate(project.fecha)}</p>
                                 <p className='py-2 my-5'>Gastado: {getTotalAmount(project.total)} $</p>
                             </div>
-                            <Link to={`/newprojects/${project.id}`} className='bg-[#38bdf8] text-black w-2/3 rounded-md font-medium my-6 mx-auto px-6 py-3 flex justify-center'> Ver Proyecto </Link>
-                            <button className="bg-[#e57373] text-red-700 w-2/3 rounded-md font-medium my-6 mx-auto px-6 py-3 flex justify-center" onClick={() => { setSelectedProjectId(project.id); setShowDeleteModal(true); }}>Eliminar Proyecto</button>
+                            <Link to={`/newprojects/${project.id}`} className='bg-[#38bdf8] text-black w-2/3 rounded-md font-medium font-sans  my-6 mx-auto px-6 py-3 flex justify-center'> Ver Proyecto </Link>
+                            <button className="bg-[#e57373] text-black w-2/3 rounded-md font-medium font-sans my-6 mx-auto px-6 py-3 flex justify-center" onClick={() => { setSelectedProjectId(project.id); setShowDeleteModal(true); }}>Eliminar Proyecto</button>
                         </div>
                     ))}
                     {showDeleteModal && selectedProjectId && ( <DeleteProjectButton projectId={selectedProjectId} onCancel={() => setShowDeleteModal(false)} onDelete={() => { setProjects(projects.filter((p) => p.id !== selectedProjectId)); setShowDeleteModal(false); }}/>)}

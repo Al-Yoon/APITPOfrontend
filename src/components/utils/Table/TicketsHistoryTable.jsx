@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
-import { CSVLink} from "react-csv";
+import { CSVLink } from "react-csv";
 
 function TicketsHistoryTable({ data }) {
     const [previewImage, setPreviewImage] = useState(null);
 
     const handleImageClick = (image) => {
         setPreviewImage(URL.createObjectURL(image));
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-CA'); // 'en-CA' formatea la fecha como YYYY-MM-DD
     };
 
     const columns = [
@@ -17,7 +22,7 @@ function TicketsHistoryTable({ data }) {
         },
         {
             name: "Fecha",
-            selector: row => row.fecha,
+            selector: row => formatDate(row.fecha),
             sortable: true,
         },
         {
@@ -36,7 +41,8 @@ function TicketsHistoryTable({ data }) {
     ];
 
     const csvData = data.map(ticket => ({
-        ...ticket
+        ...ticket,
+        fecha: formatDate(ticket.fecha) // Formatear la fecha para el CSV también
     }));
 
     return (
@@ -44,7 +50,8 @@ function TicketsHistoryTable({ data }) {
             <DataTable 
                 columns={columns} 
                 data={data.map(ticket => ({
-                    ...ticket
+                    ...ticket,
+                    fecha: formatDate(ticket.fecha) // Formatear la fecha para la tabla
                 }))} 
                 noHeader 
                 pagination 

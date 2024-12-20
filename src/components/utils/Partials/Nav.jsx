@@ -38,7 +38,7 @@ const Nav = () => {
                 {nav ? <AiOutlineClose size={20}/> : <AiOutlineMenu size={20} />}
             </div>
 
-            <ul className={nav ? 'fixed left-0 top-0 w-[50%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-300' : 'ease-in-out duration-300 fixed left-[-100%]'}>
+            <ul className={nav ? 'fixed left-0 top-0 w-[50%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-300 z-50' : 'ease-in-out duration-300 fixed left-[-100%] z-50'}>
                 <Link to="/"><h1 className='w-full text-3xl font-bold text-[#38bdf8] m-4'>EasyPays.</h1></Link>
                 <Link to="/nosotros"><li className='p-4 border-b border-gray-600'>Nosotros</li></Link>
                 <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={handleServiceClick}>Servicios</li>

@@ -21,25 +21,19 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  zIndex: 1000,  // Ajusta el z-index del modal
 };
 
 const ariaLabel = { 'aria-label': 'description' };
 
-export default function ModalUser({ userData, onUpdateUser }) {
+export default function ModalUser({ userData, onUpdateUser, open, handleClose }) {
   const { user } = React.useContext(AuthContext);
-  const [open, setOpen] = React.useState(false);
   const [tempUserData, setTempUserData] = React.useState({
     nombre: userData.nombre || '',
     email: userData.email || '',
     contrasenia: '',
   });
   const [error, setError] = React.useState('');
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setError('');
-    setOpen(false);
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,7 +62,7 @@ export default function ModalUser({ userData, onUpdateUser }) {
     try {
       // Datos para enviar al API
       const updatedUserData = { nombre, email, contrasenia };
-      const updatedProfile = await updateUser( user.id, updatedUserData);
+      const updatedProfile = await updateUser(user.id, updatedUserData);
 
       if (updatedProfile) {
         onUpdateUser(updatedProfile); // Notificar al componente padre
@@ -83,87 +77,88 @@ export default function ModalUser({ userData, onUpdateUser }) {
   };
 
   return (
-    <div>
-      <Button onClick={handleOpen}>Modificar</Button>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: { timeout: 500 },
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <button onClick={handleClose} style={{ float: 'right', background: 'none', border: 'none' }}>
-              <CloseIcon />
-            </button>
-            <div className="mx-auto text-center flex flex-col justify-center">
-              <Typography id="transition-modal-title" variant="h6" component="h2">
-                Editar Usuario
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition
+      slots={{ backdrop: Backdrop }}
+      slotProps={{
+        backdrop: { timeout: 500 },
+      }}
+    >
+      <Fade in={open}>
+        <Box sx={style}>
+          <button onClick={handleClose} style={{ float: 'right', background: 'none', border: 'none' }}>
+            <CloseIcon />
+          </button>
+          <div className="mx-auto text-center flex flex-col justify-center">
+            <Typography id="transition-modal-title" variant="h6" component="h2">
+              Editar Usuario
+            </Typography>
+            <Box
+              component="form"
+              sx={{ '& > :not(style)': { m: 1 } }}
+              noValidate
+              autoComplete="off"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSave();
+              }}
+            >
+              <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
+                Nombre
               </Typography>
-              <Box
-                component="form"
-                sx={{ '& > :not(style)': { m: 1 } }}
-                noValidate
-                autoComplete="off"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSave();
-                }}
-              >
-                <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
-                  Nombre
+              <Input
+                name="nombre"
+                placeholder="Nombre"
+                inputProps={ariaLabel}
+                value={tempUserData.nombre}
+                onChange={handleChange}
+              />
+
+              <Typography variant="subtitle1" sx={{ textAlign: 'center', mt: 2 }}>
+                Email
+              </Typography>
+              <Input
+                name="email"
+                placeholder="Email"
+                inputProps={ariaLabel}
+                type="email"
+                value={tempUserData.email}
+                onChange={handleChange}
+              />
+
+              <Typography variant="subtitle1" sx={{ textAlign: 'center', mt: 2 }}>
+                Nueva Contraseña
+              </Typography>
+              <Input
+                name="contrasenia"
+                placeholder="Nueva Contraseña"
+                inputProps={ariaLabel}
+                type="password"
+                value={tempUserData.contrasenia}
+                onChange={handleChange}
+              />
+
+              {error && (
+                <Typography variant="caption" color="error">
+                  {error}
                 </Typography>
-                <Input
-                  name="nombre"
-                  placeholder="Nombre"
-                  inputProps={ariaLabel}
-                  value={tempUserData.nombre}
-                  onChange={handleChange}
-                />
+              )}
 
-                <Typography variant="subtitle1" sx={{ textAlign: 'center', mt: 2 }}>
-                  Email
-                </Typography>
-                <Input
-                  name="email"
-                  placeholder="Email"
-                  inputProps={ariaLabel}
-                  type="email"
-                  value={tempUserData.email}
-                  onChange={handleChange}
-                />
-
-                <Typography variant="subtitle1" sx={{ textAlign: 'center', mt: 2 }}>
-                  Nueva Contraseña
-                </Typography>
-                <Input
-                  name="contrasenia"
-                  placeholder="Nueva Contraseña"
-                  inputProps={ariaLabel}
-                  type="password"
-                  value={tempUserData.contrasenia}
-                  onChange={handleChange}
-                />
-
-                {error && (
-                  <Typography variant="caption" color="error">
-                    {error}
-                  </Typography>
-                )}
-
-                <div className="flex flex-row items-center justify-center ">
-                <Link to="/login"><Button onClick={handleSave} type="submit" variant="contained" sx={{ mt: 3, bgcolor: '#38bdf8', color: '#000', width: '100%'}} fullWidth> Guardar Cambios </Button></Link>
-                </div>
-              </Box>
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
-    </div>
+              <div className="flex flex-row items-center justify-center text-white">
+                <Link to="/login">
+                  <Button onClick={handleSave} type="submit" variant="contained" sx={{ mt: 3, bgcolor: '#38bdf8', color: '#000', width: '100%' }} fullWidth>
+                    Guardar Cambios
+                  </Button>
+                </Link>
+              </div>
+            </Box>
+          </div>
+        </Box>
+      </Fade>
+    </Modal>
   );
 }

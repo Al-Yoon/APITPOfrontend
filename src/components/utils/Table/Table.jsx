@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
-import { CSVLink} from "react-csv";
+import { CSVLink } from "react-csv";
 
 function Table({ data }) {
     const [previewImage, setPreviewImage] = useState(null);
 
     const handleImageClick = (image) => {
         setPreviewImage(URL.createObjectURL(image));
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-CA'); // 'en-CA' formatea la fecha como YYYY-MM-DD
     };
 
     const columns = [
@@ -22,7 +27,7 @@ function Table({ data }) {
         },
         {
             name: "Fecha",
-            selector: row => row.fecha,
+            selector: row => formatDate(row.fecha),
             sortable: true,
         },
         {
@@ -60,11 +65,13 @@ function Table({ data }) {
                     <button onClick={() => setPreviewImage(null)}>Cerrar</button>
                 </div>
             )}
-            <CSVLink data={data} filename="historial_tickets.csv" className='text-[#2c392e]'>
-                        <button className='bg-[#42e663] w-[17vh] h-[4vh] hover:text-white mx-auto my-auto mt-3 rounded-lg'>
+            <div className="flex mt-3">
+                <CSVLink data={data} filename="historial_tickets.csv" className='text-[#2c392e]'>
+                    <button className='bg-[#42e663] px-4 py-2 hover:text-white rounded-lg font-medium font-sans'>
                         Generar Reporte
-                        </button>
-                    </CSVLink>
+                    </button>
+                </CSVLink>
+            </div>
         </div>
     );
 }

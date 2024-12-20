@@ -8,7 +8,6 @@ import MyProjects from "./views/MyProjects";
 import UserPanel from "./views/UserPanel";
 import About from "./views/AboutUs";
 import NewProject from "./views/NewProject";
-import Error from "./views/Error404";
 
 
 const PrivateRoute = ({ children }) => {
@@ -28,7 +27,6 @@ const App = () => {
             <Route path="myprojects" element={<PrivateRoute><MyProjects /></PrivateRoute>} />
             <Route path="newprojects/:id" element={<PrivateRoute><NewProject /></PrivateRoute>} />
             <Route path="userpanel" element={<PrivateRoute><UserPanel /></PrivateRoute>} />
-            <Route path="*" element={<Error />} />
           </Route>
         </Routes>
       </Router>
