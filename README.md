@@ -14,10 +14,10 @@ Colaboradores: Alex Yoon, Santiago Boher y Federico Prieto.
 
 Primero, clona el repositorio desde GitHub:
 (BACKEND)
-https://github.com/Al-Yoon/APITPObackend.git- CAMBIAR RUTA
+https://github.com/Al-Yoon/APITPObackend CAMBIAR RUTA
 
 (FRONTEND)
-https://github.com/Al-Yoon/APITPOfrontend.git- CAMBIAR RUTA
+https://github.com/Al-Yoon/APITPOfrontend CAMBIAR RUTA
 
 git clone
 
