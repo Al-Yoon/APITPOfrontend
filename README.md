@@ -1,6 +1,8 @@
-# EasyPays
+# EasyPays - Frontend
 
 EasyPays es una aplicación web para gestionar y dividir gastos de manera sencilla y eficiente. Esta guía te ayudará a configurar y ejecutar el proyecto tanto para el backend como para el frontend.
+
+Colaboradores: Alex Yoon, Santiago Boher y Federico Prieto.
 
 ## Prerrequisitos
 
@@ -12,12 +14,33 @@ EasyPays es una aplicación web para gestionar y dividir gastos de manera sencil
 
 Primero, clona el repositorio desde GitHub:
 (BACKEND)
-https://github.com/loveonick/backendEasyPays
+https://github.com/Al-Yoon/APITPObackend.git- CAMBIAR RUTA
 
 (FRONTEND)
-https://github.com/Al-Yoon/EasyPays.git
+https://github.com/Al-Yoon/APITPOfrontend.git- CAMBIAR RUTA
 
 git clone
+
+## Configuración del Frontend
+
+### 1. Navegar a la Carpeta del Frontend
+
+Abre una nueva terminal y navega a la carpeta del frontend:
+
+
+sh cd ../frontend
+
+### 2. Instalar Dependencias
+
+
+sh npm install
+
+### 3. Iniciar el Servidor de Desarrollo del Frontend
+
+
+sh npm start
+
+Esto iniciará el servidor de desarrollo del frontend en `http://localhost:3000`.
 
 ## Configuración del Backend
 
@@ -69,30 +92,11 @@ Esto iniciará el servidor del backend en el puerto 8080 (o el puerto especifica
 
 Luego de que se inicie el backend y se creen las tablas, abrir el archivo queriesPruebas e ir creando en MySQL algunas tablas dentro del servidor.
 
-Ahora con eso se pueden probar los endpoints en postman. El link es este:
+Ahora con eso se pueden probar los endpoints en postman o bien acceder a la documentación. Los links son los siguientes:
 
-https://easypays-5691.postman.co/workspace/be740b79-bf54-4938-b627-edc8d035f242/overview
+Documentación Endpoints: https://documenter.getpostman.com/view/39459933/2sAYJ3EMdt
 
-## Configuración del Frontend
-
-### 1. Navegar a la Carpeta del Frontend
-
-Abre una nueva terminal y navega a la carpeta del frontend:
-
-
-sh cd ../frontend
-
-### 2. Instalar Dependencias
-
-
-sh npm install
-
-### 3. Iniciar el Servidor de Desarrollo del Frontend
-
-
-sh npm start
-
-Esto iniciará el servidor de desarrollo del frontend en `http://localhost:3000`.
+Endpoints: https://easypays-5691.postman.co/workspace/be740b79-bf54-4938-b627-edc8d035f242/overview
 
 ## Verificación
 

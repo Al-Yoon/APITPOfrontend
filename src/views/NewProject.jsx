@@ -50,10 +50,15 @@ const NewProject = () => {
     useEffect(() => {
         const total = tickets.reduce((sum, ticket) => sum + (ticket.monto || 0), 0);
         setTotalAmount(total);
-    }, [tickets]);
+        localStorage.setItem(`totalAmount_${id}`, total.toString());
+    }, [tickets, id]);
 
     const addTicket = (newTicket) => {
-        setTickets([...tickets, newTicket]);
+        const updatedTickets = [...tickets, newTicket];
+        setTickets(updatedTickets);
+        const newTotal = updatedTickets.reduce((sum, ticket) => sum + (ticket.monto || 0), 0);
+        setTotalAmount(newTotal);
+        localStorage.setItem(`totalAmount_${id}`, newTotal.toString());
         return true;
     };
 

@@ -42,12 +42,13 @@ const MyProjects = () => {
         return date.toLocaleDateString('en-CA'); // 'en-CA' formatea la fecha como YYYY-MM-DD
     };
 
-    const getTotalAmount = (slug) => {
-        return 0;
+    const getTotalAmount = (projectId) => {
+        const totalAmount = localStorage.getItem(`totalAmount_${projectId}`);
+        return totalAmount ? parseFloat(totalAmount) : 0;
     };
 
     const getTotalProjectAmount = () => {
-        return 0;
+        return projects.reduce((sum, project) => sum + getTotalAmount(project.id), 0);
     };
 
     const addProject = async (newProject) => {
@@ -101,7 +102,7 @@ const MyProjects = () => {
                             <div className='text-center font-medium'>
                                 <p className='py-2 my-5'>{project.descripcion}</p>
                                 <p className='py-2 my-5'>{formatDate(project.fecha)}</p>
-                                <p className='py-2 my-5'>Gastado: {getTotalAmount(project.total)} $</p>
+                                <p className='py-2 my-5'>Gastado: {getTotalAmount(project.id)} $</p>
                             </div>
                             <Link to={`/newprojects/${project.id}`} className='bg-[#38bdf8] text-black w-2/3 rounded-md font-medium font-sans  my-6 mx-auto px-6 py-3 flex justify-center'> Ver Proyecto </Link>
                             <button className="bg-[#e57373] text-black w-2/3 rounded-md font-medium font-sans my-6 mx-auto px-6 py-3 flex justify-center" onClick={() => { setSelectedProjectId(project.id); setShowDeleteModal(true); }}>Eliminar Proyecto</button>
